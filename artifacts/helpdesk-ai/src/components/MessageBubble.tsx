@@ -21,23 +21,23 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className={cn(
-        "flex gap-5 w-full", 
+        "flex gap-3 sm:gap-4 md:gap-5 w-full", 
         isUser ? "flex-row-reverse" : ""
       )}
     >
       {/* Avatar */}
       <div className="shrink-0 mt-1">
         {isUser ? (
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/20 border border-primary/40 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow">
-            <User className="w-5 h-5 text-primary" />
+          <div className="w-9 sm:w-10 md:w-11 h-9 sm:h-10 md:h-11 rounded-full bg-gradient-to-br from-primary/30 to-primary/20 border border-primary/40 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow flex-shrink-0">
+            <User className="w-4 sm:w-5 md:w-5 h-4 sm:h-5 md:h-5 text-primary" />
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative flex-shrink-0">
             <div className="absolute inset-0 bg-primary/15 blur-md rounded-lg"></div>
             <img 
               src={`${import.meta.env.BASE_URL}images/ai-avatar.png`} 
               alt="AI" 
-              className="relative w-10 h-10 rounded-lg shadow-lg border border-primary/20 object-cover" 
+              className="relative w-9 sm:w-10 md:w-11 h-9 sm:h-10 md:h-11 rounded-lg shadow-lg border border-primary/20 object-cover" 
             />
           </div>
         )}
@@ -45,17 +45,17 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
       {/* Message Content */}
       <div className={cn(
-        "flex-1 min-w-0 max-w-[85%] md:max-w-[75%]", 
+        "flex-1 min-w-0 max-w-[90%] sm:max-w-[85%] md:max-w-[75%]", 
         isUser ? "text-right" : ""
       )}>
         {isUser ? (
-          <div className="inline-block bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground px-6 py-4 rounded-2xl rounded-tr-sm text-[15px] shadow-lg border border-white/8 font-medium leading-relaxed hover:shadow-xl transition-shadow">
+          <div className="inline-block bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-2xl rounded-tr-sm text-xs sm:text-sm md:text-base shadow-lg border border-white/8 font-medium leading-relaxed hover:shadow-xl transition-shadow break-words">
             {message.content}
           </div>
         ) : (
-          <div className="prose prose-invert prose-sm md:prose-base max-w-none text-[15px] leading-relaxed 
-            prose-p:mb-5 prose-p:text-foreground/90 prose-headings:mb-4 prose-headings:mt-6 
-            prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border/50 prose-pre:shadow-lg prose-pre:p-4
+          <div className="prose prose-invert prose-sm md:prose-base max-w-none text-xs sm:text-sm md:text-base leading-relaxed 
+            prose-p:mb-3 sm:prose-p:mb-4 md:prose-p:mb-5 prose-p:text-foreground/90 prose-headings:mb-2 sm:prose-headings:mb-3 md:prose-headings:mb-4 prose-headings:mt-4 sm:prose-headings:mt-5 md:prose-headings:mt-6 
+            prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border/50 prose-pre:shadow-lg prose-pre:p-3 sm:prose-pre:p-4
             prose-code:text-cyan-300 prose-a:text-cyan-400 prose-strong:text-foreground"
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>

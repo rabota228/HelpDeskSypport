@@ -80,9 +80,9 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           <Link 
             href="/"
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full p-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+            className="flex items-center justify-center gap-2 w-full p-3.5 sm:p-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 active:scale-95 text-sm sm:text-base"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
             New Incident
           </Link>
         </div>
