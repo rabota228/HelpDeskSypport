@@ -49,14 +49,14 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         isUser ? "text-right" : ""
       )}>
         {isUser ? (
-          <div className="inline-block bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-2xl rounded-tr-sm text-xs sm:text-sm md:text-base shadow-lg border border-white/8 font-medium leading-relaxed hover:shadow-xl transition-shadow break-words">
+          <div className="inline-block bg-gradient-to-br from-primary/90 to-primary text-primary-foreground px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-3xl rounded-tr-sm text-xs sm:text-sm md:text-base shadow-ios-sm font-medium leading-relaxed hover:shadow-ios transition-all break-words">
             {message.content}
           </div>
         ) : (
           <div className="prose prose-invert prose-sm md:prose-base max-w-none text-xs sm:text-sm md:text-base leading-relaxed 
             prose-p:mb-3 sm:prose-p:mb-4 md:prose-p:mb-5 prose-p:text-foreground/90 prose-headings:mb-2 sm:prose-headings:mb-3 md:prose-headings:mb-4 prose-headings:mt-4 sm:prose-headings:mt-5 md:prose-headings:mt-6 
-            prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border/50 prose-pre:shadow-lg prose-pre:p-3 sm:prose-pre:p-4
-            prose-code:text-cyan-300 prose-a:text-cyan-400 prose-strong:text-foreground"
+            prose-pre:bg-[#1a1f3a] prose-pre:border prose-pre:border-primary/20 prose-pre:shadow-ios prose-pre:p-3 sm:prose-pre:p-4 prose-pre:rounded-2xl
+            prose-code:text-cyan-300 prose-a:text-primary prose-strong:text-foreground"
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {message.content || "..."}

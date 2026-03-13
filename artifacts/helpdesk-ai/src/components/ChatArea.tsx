@@ -160,14 +160,14 @@ export function ChatArea({ chatId }: { chatId?: number }) {
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-accent/30 rounded-3xl blur-lg opacity-20 group-focus-within:opacity-50 transition duration-500"></div>
           
           {/* Input Box */}
-          <div className="relative flex items-end gap-2 sm:gap-2.5 bg-card border-2 border-border/60 focus-within:border-primary/50 rounded-2xl p-2 sm:p-2.5 shadow-2xl transition-all duration-300">
+          <div className="relative flex items-end gap-2 sm:gap-2.5 glass rounded-3xl p-2 sm:p-2.5 focus-within:bg-white/8 focus-within:border-primary/40 transition-all duration-300">
             <textarea 
               ref={textareaRef}
               value={input}
               onChange={handleInputText}
               onKeyDown={onKeyDown}
               placeholder="Describe the issue, paste logs, or ask for an escalation path..."
-              className="w-full bg-transparent resize-none p-2.5 sm:p-3 max-h-48 focus:outline-none text-sm sm:text-base text-foreground placeholder:text-muted-foreground font-medium"
+              className="w-full bg-transparent resize-none p-2.5 sm:p-3 max-h-48 focus:outline-none text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 font-medium"
               rows={1}
               disabled={isCreating || isStreaming}
             />
@@ -175,10 +175,10 @@ export function ChatArea({ chatId }: { chatId?: number }) {
               onClick={() => handleSend(input)}
               disabled={!input.trim() || isCreating || isStreaming}
               className={cn(
-                "p-3 sm:p-3.5 md:p-4 rounded-xl font-semibold transition-all duration-300 shrink-0 shadow-lg active:scale-95 sm:active:scale-100",
+                "p-3 sm:p-3.5 md:p-4 rounded-2xl font-semibold transition-all duration-300 shrink-0 shadow-ios-sm active:scale-95 sm:active:scale-100",
                 input.trim() && !isCreating && !isStreaming
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-primary/25 hover:-translate-y-0.5" 
-                  : "bg-secondary text-muted-foreground cursor-not-allowed"
+                  ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground hover:shadow-ios hover:-translate-y-0.5" 
+                  : "bg-muted text-muted-foreground cursor-not-allowed"
               )}
             >
               {isCreating ? <Loader2 className="w-4 sm:w-5 md:w-5 h-4 sm:h-5 md:h-5 animate-spin" /> : <Send className="w-4 sm:w-5 md:w-5 h-4 sm:h-5 md:h-5" />}

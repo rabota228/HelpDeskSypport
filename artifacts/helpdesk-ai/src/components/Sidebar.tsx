@@ -80,7 +80,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           <Link 
             href="/"
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full p-3.5 sm:p-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 active:scale-95 text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 w-full p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-semibold shadow-ios hover:shadow-ios-sm hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 active:scale-95 text-sm sm:text-base"
           >
             <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
             New Incident
@@ -110,10 +110,10 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                   href={`/chat/${conv.id}`}
                   onClick={onClose}
                   className={cn(
-                    "flex items-center gap-3 p-3 rounded-xl transition-all group",
+                    "flex items-center gap-3 p-3 rounded-2xl transition-all group",
                     isActive 
-                      ? "bg-primary/15 text-primary border border-primary/20" 
-                      : "hover:bg-secondary text-muted-foreground hover:text-foreground border border-transparent"
+                      ? "glass bg-white/8 border-primary/40 text-primary" 
+                      : "glass-sm text-muted-foreground hover:bg-white/5 hover:text-foreground hover:border-white/15"
                   )}
                 >
                   <MessageSquare className="w-4 h-4 shrink-0 opacity-70" />

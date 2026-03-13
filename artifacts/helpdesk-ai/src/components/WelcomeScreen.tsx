@@ -27,18 +27,18 @@ export function WelcomeScreen({ onPromptSelect }: { onPromptSelect: (p: string) 
   return (
     <div className="flex flex-col items-center justify-center h-full min-h-screen max-w-5xl mx-auto px-4 sm:px-6 text-center py-8 sm:py-12 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
-      {/* Avatar / Logo */}
+      {/* Avatar / Logo with iOS glow */}
       <div className="relative mb-8 sm:mb-10 group">
-        <div className="absolute -inset-6 bg-primary/25 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition duration-1000"></div>
+        <div className="absolute -inset-8 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition duration-1000"></div>
         <img 
           src={`${import.meta.env.BASE_URL}images/ai-avatar.png`} 
           alt="HelpDesk Pro AI Logo" 
-          className="relative w-24 sm:w-28 md:w-36 h-24 sm:h-28 md:h-36 rounded-3xl shadow-2xl border border-primary/20" 
+          className="relative w-24 sm:w-28 md:w-36 h-24 sm:h-28 md:h-36 rounded-3xl shadow-ios border border-white/10" 
         />
       </div>
       
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-foreground mb-3 sm:mb-4 tracking-tight">
-        HelpDesk <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-blue-400">Pro AI</span>
+        HelpDesk <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Pro AI</span>
       </h1>
       
       <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-2 sm:mb-3 max-w-2xl font-medium">
@@ -53,10 +53,10 @@ export function WelcomeScreen({ onPromptSelect }: { onPromptSelect: (p: string) 
           <button 
             key={i} 
             onClick={() => onPromptSelect(p.desc)}
-            className="flex flex-col text-left p-4 sm:p-5 md:p-7 rounded-2xl border border-border/60 bg-card/50 backdrop-blur-md hover:bg-card/80 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1.5 transition-all duration-300 group active:scale-95 sm:active:scale-100"
+            className="flex flex-col text-left p-4 sm:p-5 md:p-7 glass rounded-3xl hover:bg-white/8 hover:border-white/20 hover:shadow-ios transition-all duration-300 group active:scale-95 sm:active:scale-100"
           >
             <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-primary/20 to-secondary group-hover:from-primary/40 group-hover:to-secondary/50 text-primary group-hover:scale-110 shadow-sm transition-all duration-300">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-gradient-to-br from-primary/25 to-accent/15 text-primary group-hover:from-primary/35 group-hover:to-accent/25 group-hover:scale-110 shadow-ios-sm transition-all duration-300">
                 <p.icon className="w-5 sm:w-6 h-5 sm:h-6" />
               </div>
               <span className="font-semibold text-foreground text-base sm:text-lg group-hover:text-primary transition-colors leading-tight">{p.title}</span>

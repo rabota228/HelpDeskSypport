@@ -57,50 +57,50 @@
 }
 
 :root {
-  /* Enforced Dark Mode for Technical IT Feel */
-  --background: 222 47% 7%;  
+  /* iOS 16 Pro Max Dark Mode - Refined & Elegant */
+  --background: 240 5% 8%;  
   --foreground: 210 40% 98%;
   
-  --card: 222 47% 11%;
+  /* Glassmorphic cards with subtle depth */
+  --card: 240 5% 13%;
   --card-foreground: 210 40% 98%;
-  --card-border: 215 32% 17%;
+  --card-border: 220 10% 22%;
   
-  --popover: 222 47% 11%;
+  --popover: 240 5% 13%;
   --popover-foreground: 210 40% 98%;
-  --popover-border: 215 32% 17%;
+  --popover-border: 220 10% 22%;
   
-  /* Vibrant Cyan for AI/Tech feel */
-  --primary: 199 89% 48%; 
+  /* Vibrant iOS Blue for AI/Tech */
+  --primary: 206 100% 50%; 
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 217 32% 17%;
+  /* iOS Secondary - Subtle gray */
+  --secondary: 240 7% 22%;
   --secondary-foreground: 210 40% 98%;
   
-  --muted: 217 32% 17%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 240 7% 20%;
+  --muted-foreground: 215 20.2% 60%;
   
-  --accent: 217 32% 17%;
+  --accent: 175 100% 46%;
   --accent-foreground: 210 40% 98%;
   
-  --destructive: 0 62.8% 40%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
   
-  --border: 217 32% 17%;
-  --input: 217 32% 17%;
-  --ring: 199 89% 48%;
+  --border: 220 10% 20%;
+  --input: 240 5% 18%;
+  --ring: 206 100% 50%;
   
-  --sidebar: 223 47% 5%; 
+  --sidebar: 240 5% 7%; 
   --sidebar-foreground: 210 40% 98%;
-  --sidebar-border: 217 32% 17%;
-  --sidebar-primary: 199 89% 48%;
+  --sidebar-border: 220 10% 20%;
+  --sidebar-primary: 206 100% 50%;
   --sidebar-primary-foreground: 0 0% 100%;
   
-  --radius: 0.75rem;
+  --radius: 1.125rem;
 
   --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
-  
-  color-scheme: dark;
+  --elevate-2: rgba(255,255,255, .08);
 }
 
 @layer base {
@@ -112,29 +112,111 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 
-  /* Markdown overrides for darker theme */
-  .prose {
-    @apply text-foreground max-w-none;
+  /* iOS-style scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
   }
-  .prose h1, .prose h2, .prose h3, .prose h4 {
-    @apply text-foreground font-display font-semibold tracking-tight;
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .prose a {
-    @apply text-primary no-underline hover:underline transition-all;
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
   }
-  .prose pre {
-    @apply bg-secondary border border-border rounded-xl;
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
   }
-  .prose code {
-    @apply text-primary bg-primary/10 px-1.5 py-0.5 rounded-md font-mono text-sm;
+}
+
+@layer utilities {
+  /* Glassmorphism effect - iOS 16 style */
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
   }
-  .prose pre code {
-    @apply text-foreground bg-transparent p-0;
+
+  .glass-sm {
+    @apply backdrop-blur-lg bg-white/3 border border-white/8;
   }
-  .prose strong {
-    @apply text-foreground font-semibold;
+
+  /* Soft shadows - iOS style */
+  .shadow-ios {
+    @apply shadow-lg shadow-black/20;
   }
-  .prose ul > li::marker {
-    @apply text-muted-foreground;
+
+  .shadow-ios-sm {
+    @apply shadow-md shadow-black/15;
+  }
+
+  /* Input styling */
+  input[type="search"]::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {}
+  .no-default-active-elevate {}
+
+  .toggle-elevate::before,
+  .toggle-elevate-2::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .toggle-elevate.toggle-elevated::before {
+    background-color: var(--elevate-2);
+  }
+
+  .border.toggle-elevate::before {
+    inset: -1px;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-1);
+  }
+
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-2);
+  }
+
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
+    inset: -1px;
   }
 }

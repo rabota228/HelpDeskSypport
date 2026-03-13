@@ -13,10 +13,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 relative h-full">
         {/* Mobile Header (Visible only on small screens) */}
-        <div className="md:hidden flex items-center justify-between p-3.5 sm:p-4 border-b border-border bg-card/80 backdrop-blur-md z-10 shrink-0 shadow-sm">
+        <div className="md:hidden glass flex items-center justify-between p-3.5 sm:p-4 z-10 shrink-0">
           <button 
             onClick={() => setSidebarOpen(true)}
-            className="p-2.5 sm:p-3 bg-secondary text-foreground rounded-lg hover:bg-secondary/80 transition-colors active:scale-95"
+            className="p-2.5 sm:p-3 bg-white/8 text-foreground rounded-xl hover:bg-white/12 transition-colors active:scale-95"
           >
             <Menu className="w-5 sm:w-6 h-5 sm:h-6" />
           </button>
