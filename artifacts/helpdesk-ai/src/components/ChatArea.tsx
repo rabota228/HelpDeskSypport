@@ -130,7 +130,7 @@ export function ChatArea({ chatId }: { chatId?: number }) {
       {/* Main Scrollable Area */}
       <div className="flex-1 overflow-y-auto">
         {chatId ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8 pb-40 space-y-8">
+          <div className="max-w-5xl mx-auto p-6 md:p-12 pb-40 space-y-6">
             {localMessages.map(msg => (
               <MessageBubble key={msg.id} message={msg} />
             ))}
@@ -144,7 +144,7 @@ export function ChatArea({ chatId }: { chatId?: number }) {
               }} />
             )}
             
-            <div ref={messagesEndRef} className="h-4" />
+            <div ref={messagesEndRef} className="h-2" />
           </div>
         ) : (
           <div className="h-full pb-40">

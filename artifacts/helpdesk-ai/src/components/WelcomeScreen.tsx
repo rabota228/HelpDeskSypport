@@ -25,41 +25,44 @@ export function WelcomeScreen({ onPromptSelect }: { onPromptSelect: (p: string) 
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-[60vh] max-w-3xl mx-auto px-4 text-center mt-12 md:mt-0 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="flex flex-col items-center justify-center h-full min-h-[70vh] max-w-4xl mx-auto px-6 text-center py-12 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
       {/* Avatar / Logo */}
-      <div className="relative mb-8 group">
-        <div className="absolute -inset-4 bg-primary/20 rounded-full blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+      <div className="relative mb-10 group">
+        <div className="absolute -inset-6 bg-primary/25 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition duration-1000"></div>
         <img 
           src={`${import.meta.env.BASE_URL}images/ai-avatar.png`} 
           alt="HelpDesk Pro AI Logo" 
-          className="relative w-24 h-24 md:w-32 md:h-32 rounded-2xl md:rounded-3xl shadow-2xl border border-white/10" 
+          className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl shadow-2xl border border-primary/20" 
         />
       </div>
       
-      <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight">
-        HelpDesk <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-300">Pro AI</span>
+      <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground mb-4 tracking-tight">
+        HelpDesk <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-blue-400">Pro AI</span>
       </h1>
       
-      <p className="text-muted-foreground text-lg md:text-xl mb-12 max-w-xl font-medium">
-        Your specialized L1-L3 Support Assistant. How can I help resolve today's incidents?
+      <p className="text-muted-foreground text-lg md:text-xl mb-4 max-w-2xl font-medium">
+        Your personal IT support expert for Levels 1, 2, and 3
+      </p>
+      <p className="text-muted-foreground/70 text-base md:text-lg mb-14 max-w-2xl">
+        Get instant advice on troubleshooting, escalations, KB articles, and more
       </p>
        
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {PROMPTS.map((p, i) => (
           <button 
             key={i} 
             onClick={() => onPromptSelect(p.desc)}
-            className="flex flex-col text-left p-6 rounded-2xl border border-border/50 bg-card/40 backdrop-blur-sm hover:bg-card hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 group"
+            className="flex flex-col text-left p-6 md:p-7 rounded-2xl border border-border/60 bg-card/50 backdrop-blur-md hover:bg-card/80 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1.5 transition-all duration-300 group"
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2.5 rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground shadow-sm transition-colors duration-300">
-                <p.icon className="w-5 h-5" />
+            <div className="flex items-center gap-4 mb-4">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-secondary group-hover:from-primary/40 group-hover:to-secondary/50 text-primary group-hover:scale-110 shadow-sm transition-all duration-300">
+                <p.icon className="w-6 h-6" />
               </div>
-              <span className="font-semibold text-foreground text-lg">{p.title}</span>
+              <span className="font-semibold text-foreground text-lg group-hover:text-primary transition-colors">{p.title}</span>
             </div>
-            <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors leading-relaxed">
-              "{p.desc}"
+            <p className="text-sm text-muted-foreground/90 group-hover:text-foreground/80 transition-colors leading-relaxed pl-1">
+              {p.desc}
             </p>
           </button>
         ))}

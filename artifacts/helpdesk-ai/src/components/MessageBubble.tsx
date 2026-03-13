@@ -21,23 +21,23 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className={cn(
-        "flex gap-4 w-full", 
+        "flex gap-5 w-full", 
         isUser ? "flex-row-reverse" : ""
       )}
     >
       {/* Avatar */}
       <div className="shrink-0 mt-1">
         {isUser ? (
-          <div className="w-9 h-9 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shadow-inner">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/20 border border-primary/40 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow">
             <User className="w-5 h-5 text-primary" />
           </div>
         ) : (
           <div className="relative">
-            <div className="absolute inset-0 bg-primary/20 blur rounded-lg"></div>
+            <div className="absolute inset-0 bg-primary/15 blur-md rounded-lg"></div>
             <img 
               src={`${import.meta.env.BASE_URL}images/ai-avatar.png`} 
               alt="AI" 
-              className="relative w-9 h-9 rounded-lg shadow-md border border-white/10 object-cover" 
+              className="relative w-10 h-10 rounded-lg shadow-lg border border-primary/20 object-cover" 
             />
           </div>
         )}
@@ -49,14 +49,14 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         isUser ? "text-right" : ""
       )}>
         {isUser ? (
-          <div className="inline-block bg-secondary text-secondary-foreground px-5 py-3.5 rounded-2xl rounded-tr-sm text-[15px] shadow-md border border-white/5 font-medium leading-relaxed">
+          <div className="inline-block bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground px-6 py-4 rounded-2xl rounded-tr-sm text-[15px] shadow-lg border border-white/8 font-medium leading-relaxed hover:shadow-xl transition-shadow">
             {message.content}
           </div>
         ) : (
           <div className="prose prose-invert prose-sm md:prose-base max-w-none text-[15px] leading-relaxed 
-            prose-p:mb-4 prose-headings:mb-4 prose-headings:mt-6 
+            prose-p:mb-5 prose-p:text-foreground/90 prose-headings:mb-4 prose-headings:mt-6 
             prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border/50 prose-pre:shadow-lg prose-pre:p-4
-            prose-code:text-cyan-300 prose-a:text-cyan-400"
+            prose-code:text-cyan-300 prose-a:text-cyan-400 prose-strong:text-foreground"
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {message.content || "..."}
