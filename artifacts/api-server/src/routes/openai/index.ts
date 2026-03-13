@@ -1,4 +1,4 @@
-import { Router, type IRouter } from "express";
+import { Router, type IRouter, type Request, type Response } from "express";
 import { db, conversations, messages } from "@workspace/db";
 import { eq, asc } from "drizzle-orm";
 import { openai } from "@workspace/integrations-openai-ai-server";
@@ -6,6 +6,7 @@ import {
   CreateOpenaiConversationBody,
   SendOpenaiMessageBody,
 } from "@workspace/api-zod";
+import { validateTitle, validateMessage, validateConversationId, detectPromptInjection } from "../../lib/validation";
 
 const router: IRouter = Router();
 
@@ -61,112 +62,151 @@ You specialize in:
 
 Always provide practical, actionable advice. Format responses clearly with numbered steps when giving instructions. Include relevant commands, scripts, or templates when appropriate. Ask clarifying questions when you need more information to provide accurate support.`;
 
-router.get("/conversations", async (_req, res) => {
-  const convs = await db
-    .select()
-    .from(conversations)
-    .orderBy(asc(conversations.createdAt));
-  res.json(
-    convs.map((c) => ({
-      id: c.id,
-      title: c.title,
-      createdAt: c.createdAt.toISOString(),
-    }))
-  );
-});
-
-router.post("/conversations", async (req, res) => {
-  const body = CreateOpenaiConversationBody.parse(req.body);
-  const [conv] = await db
-    .insert(conversations)
-    .values({ title: body.title })
-    .returning();
-  res.status(201).json({
-    id: conv.id,
-    title: conv.title,
-    createdAt: conv.createdAt.toISOString(),
-  });
-});
-
-router.get("/conversations/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const [conv] = await db
-    .select()
-    .from(conversations)
-    .where(eq(conversations.id, id));
-  if (!conv) {
-    res.status(404).json({ error: "Conversation not found" });
-    return;
+router.get("/conversations", async (_req: Request, res: Response) => {
+  try {
+    const convs = await db
+      .select()
+      .from(conversations)
+      .orderBy(asc(conversations.createdAt));
+    
+    res.json(
+      convs.map((c) => ({
+        id: c.id,
+        title: c.title,
+        createdAt: c.createdAt.toISOString(),
+      }))
+    );
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to fetch conversations" });
   }
-  const msgs = await db
-    .select()
-    .from(messages)
-    .where(eq(messages.conversationId, id))
-    .orderBy(asc(messages.createdAt));
-  res.json({
-    id: conv.id,
-    title: conv.title,
-    createdAt: conv.createdAt.toISOString(),
-    messages: msgs.map((m) => ({
-      id: m.id,
-      conversationId: m.conversationId,
-      role: m.role,
-      content: m.content,
-      createdAt: m.createdAt.toISOString(),
-    })),
-  });
 });
 
-router.delete("/conversations/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const [conv] = await db
-    .select()
-    .from(conversations)
-    .where(eq(conversations.id, id));
-  if (!conv) {
-    res.status(404).json({ error: "Conversation not found" });
-    return;
+router.post("/conversations", async (req: Request, res: Response) => {
+  try {
+    const body = CreateOpenaiConversationBody.parse(req.body);
+    const title = validateTitle(body.title);
+    
+    const [conv] = await db
+      .insert(conversations)
+      .values({ title })
+      .returning();
+    
+    res.status(201).json({
+      id: conv.id,
+      title: conv.title,
+      createdAt: conv.createdAt.toISOString(),
+    });
+  } catch (err: any) {
+    res.status(400).json({ error: err.message || "Invalid request" });
   }
-  await db.delete(conversations).where(eq(conversations.id, id));
-  res.status(204).send();
 });
 
-router.get("/conversations/:id/messages", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const msgs = await db
-    .select()
-    .from(messages)
-    .where(eq(messages.conversationId, id))
-    .orderBy(asc(messages.createdAt));
-  res.json(
-    msgs.map((m) => ({
-      id: m.id,
-      conversationId: m.conversationId,
-      role: m.role,
-      content: m.content,
-      createdAt: m.createdAt.toISOString(),
-    }))
-  );
-});
-
-router.post("/conversations/:id/messages", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const [conv] = await db
-    .select()
-    .from(conversations)
-    .where(eq(conversations.id, id));
-  if (!conv) {
-    res.status(404).json({ error: "Conversation not found" });
-    return;
+router.get("/conversations/:id", async (req: Request, res: Response) => {
+  try {
+    const id = validateConversationId(req.params.id);
+    const [conv] = await db
+      .select()
+      .from(conversations)
+      .where(eq(conversations.id, id));
+    
+    if (!conv) {
+      res.status(404).json({ error: "Conversation not found" });
+      return;
+    }
+    
+    const msgs = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.conversationId, id))
+      .orderBy(asc(messages.createdAt));
+    
+    res.json({
+      id: conv.id,
+      title: conv.title,
+      createdAt: conv.createdAt.toISOString(),
+      messages: msgs.map((m) => ({
+        id: m.id,
+        conversationId: m.conversationId,
+        role: m.role,
+        content: m.content,
+        createdAt: m.createdAt.toISOString(),
+      })),
+    });
+  } catch (err: any) {
+    res.status(400).json({ error: err.message || "Invalid request" });
   }
+});
 
-  const body = SendOpenaiMessageBody.parse(req.body);
+router.delete("/conversations/:id", async (req: Request, res: Response) => {
+  try {
+    const id = validateConversationId(req.params.id);
+    const [conv] = await db
+      .select()
+      .from(conversations)
+      .where(eq(conversations.id, id));
+    
+    if (!conv) {
+      res.status(404).json({ error: "Conversation not found" });
+      return;
+    }
+    
+    await db.delete(conversations).where(eq(conversations.id, id));
+    res.status(204).send();
+  } catch (err: any) {
+    res.status(400).json({ error: err.message || "Invalid request" });
+  }
+});
 
-  await db.insert(messages).values({
-    conversationId: id,
-    role: "user",
-    content: body.content,
-  });
+router.get("/conversations/:id/messages", async (req: Request, res: Response) => {
+  try {
+    const id = validateConversationId(req.params.id);
+    const msgs = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.conversationId, id))
+      .orderBy(asc(messages.createdAt));
+    
+    res.json(
+      msgs.map((m) => ({
+        id: m.id,
+        conversationId: m.conversationId,
+        role: m.role,
+        content: m.content,
+        createdAt: m.createdAt.toISOString(),
+      }))
+    );
+  } catch (err: any) {
+    res.status(400).json({ error: err.message || "Invalid request" });
+  }
+});
+
+router.post("/conversations/:id/messages", async (req: Request, res: Response) => {
+  try {
+    const id = validateConversationId(req.params.id);
+    const [conv] = await db
+      .select()
+      .from(conversations)
+      .where(eq(conversations.id, id));
+    
+    if (!conv) {
+      res.status(404).json({ error: "Conversation not found" });
+      return;
+    }
+
+    const body = SendOpenaiMessageBody.parse(req.body);
+    const content = validateMessage(body.content);
+    
+    // Detect prompt injection attempts
+    if (detectPromptInjection(content)) {
+      res.status(400).json({ error: "Invalid request content" });
+      return;
+    }
+
+    await db.insert(messages).values({
+      conversationId: id,
+      role: "user",
+      content,
+    });
 
   const history = await db
     .select()
@@ -208,6 +248,10 @@ router.post("/conversations/:id/messages", async (req, res) => {
 
   res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
   res.end();
+  } catch (err: any) {
+    console.error("Error:", err);
+    res.status(400).json({ error: err.message || "Invalid request" });
+  }
 });
 
 export default router;
