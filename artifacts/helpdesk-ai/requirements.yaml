@@ -1,0 +1,15 @@
+packages:
+  "framer-motion": "For smooth message transitions and UI animations"
+  "react-markdown": "To render AI responses with proper formatting (code blocks, lists, etc)"
+  "remark-gfm": "For github flavored markdown (tables, task lists) in AI responses"
+  "date-fns": "For formatting conversation dates beautifully"
+  "@tailwindcss/typography": "Prose styling for markdown"
+
+images:
+  - path: "artifacts/helpdesk-ai/public/images/ai-avatar.png"
+    description: "A sleek, minimalist, glowing cyan/blue geometric logo icon on a dark background, representing an advanced IT Help Desk AI assistant. Technical, futuristic, clean, professional."
+    aspect_ratio: "1:1"
+
+notes:
+  - "Defaulting to a dark mode professional IT theme."
+  - "SSE streaming is handled manually via fetch since generated hooks don't support SSE."

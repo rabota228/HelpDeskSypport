@@ -16,6 +16,11 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+### `artifacts/helpdesk-ai` — Help Desk AI Assistant
+React + Vite frontend at `/`. AI chat assistant specialized for Help Desk Support Specialists (L1/L2/L3). Uses OpenAI gpt-5.2 via Replit AI Integrations. Conversations and messages stored in PostgreSQL.
+
 ## Structure
 
 ```text

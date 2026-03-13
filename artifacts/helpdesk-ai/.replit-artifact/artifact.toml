@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Help Desk AI Assistant"
+version = "1.0.0"
+id = "artifacts/helpdesk-ai"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 22182
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/helpdesk-ai run dev"
+
+[services.env]
+PORT = "22182"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/helpdesk-ai", "run", "build"]
+publicDir = "artifacts/helpdesk-ai/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
